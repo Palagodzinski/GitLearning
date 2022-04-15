@@ -11,5 +11,6 @@ namespace Application.Core.Services.Abstract
     {
         UserModel GetUserByMail(string email);
         UserModel AddNewUsertToDB(UserModel model);
+        UserModel GetFirstUser();
     }
 }

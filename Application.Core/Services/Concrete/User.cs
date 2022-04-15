@@ -33,6 +33,9 @@ namespace Application.Core.Services.Concrete
             return false;
         }
 
+        public UserModel GetFirstUser()
+            => _userRepository.GetFirstUser();
+        
         public UserModel AddNewUserToDB(UserModel user)
             => _userRepository.AddNewUsertToDB(user);
     }
