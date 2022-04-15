@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Application.Core.Services.Concrete
 {
     //Benchmark .NET
+    //test test github
     [MemoryDiagnoser]
     public class StringCreator : IStringCreator
     {
