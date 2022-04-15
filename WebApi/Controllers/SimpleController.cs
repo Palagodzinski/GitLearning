@@ -58,5 +58,12 @@ namespace Application.Api.Controllers
             var result = _user.Login(email, password);
             return Ok(result);
         }
+
+        [HttpGet("GetFirstUser")]
+        public IActionResult GetFirstDBUser()
+        {
+            var result = _user.GetFirstUser();
+            return Ok(result);
+        }
     }
 }

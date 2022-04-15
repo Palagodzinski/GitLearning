@@ -33,6 +33,11 @@ namespace Application.Core.Services.Concrete
             return newUser;
         }
 
+        public UserModel GetFirstUser()
+        {
+            var user = _dbContext.Users.FirstOrDefault();
+            return user;
+        }
         public UserModel GetUserByMail(string email)
         {
             using (var scope = this._provider.CreateScope())
