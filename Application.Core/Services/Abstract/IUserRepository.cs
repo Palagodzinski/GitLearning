@@ -9,8 +9,8 @@ namespace Application.Core.Services.Abstract
 {
     public interface IUserRepository
     {
-        UserModel GetUserByMail(string email);
-        UserModel AddNewUsertToDB(UserModel model);
+        UserModel? GetUserByMail(string email);
+        UserModel? AddNewUsertToDB(UserModel model);
         UserModel GetFirstUser();
         string? ChangePassword(string email, string password, string newPassword);
     }

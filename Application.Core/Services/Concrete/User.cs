@@ -38,6 +38,9 @@ namespace Application.Core.Services.Concrete
         
         public UserModel AddNewUserToDB(UserModel user)
             => _userRepository.AddNewUsertToDB(user);
+
+        public string? ChangePassword(string email, string password, string newPassword)
+            => _userRepository.ChangePassword(email, password, newPassword);
     }
 }
 
