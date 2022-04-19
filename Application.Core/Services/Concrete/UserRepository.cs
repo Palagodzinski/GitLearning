@@ -18,7 +18,7 @@ namespace Application.Core.Services.Concrete
             _dbContext = dbcontext;
         }
 
-        public UserModel AddNewUsertToDB(UserModel user)
+        public UserModel? AddNewUsertToDB(UserModel user)
         {
             _dbContext.Add(user);
             _dbContext.SaveChanges();
@@ -36,11 +36,13 @@ namespace Application.Core.Services.Concrete
             var user = _dbContext.Users.FirstOrDefault();
             return user;
         }
-        public UserModel GetUserByMail(string email)
+        public UserModel? GetUserByMail(string email)
         {
             var user = _dbContext.Users.Where(x => x.Usr_Email == email).FirstOrDefault();
-            if(user != null)
-            return user;
+            if (user != null)
+                return user;
+            else
+                return null;
         }
 
         public string? ChangePassword(string email, string password, string newPassword)
