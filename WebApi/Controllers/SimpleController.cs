@@ -65,5 +65,15 @@ namespace Application.Api.Controllers
             var result = _user.GetFirstUser();
             return Ok(result);
         }
+
+        [HttpGet("ChangeUserPassword")]
+        public IActionResult ChangePassword(string email, string password, string newPassword)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = _user.ChangePassword(email, password, newPassword);
+            return Ok(result);
+        }
     }
 }
