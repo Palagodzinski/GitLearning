@@ -12,11 +12,9 @@ namespace Application.Core.Services.Concrete
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IServiceProvider _provider;
         private DBaseContext _dbContext;
         public UserRepository(IServiceProvider provider, DBaseContext dbcontext)
         {
-            _provider = provider;
             _dbContext = dbcontext;
         }
 
@@ -24,7 +22,7 @@ namespace Application.Core.Services.Concrete
         {
             _dbContext.Add(user);
             _dbContext.SaveChanges();
-       
+
 
             var newUser = _dbContext.Users.Where(x => x.Usr_ID == user.Usr_ID).FirstOrDefault();
             var query = _dbContext.Users.Where(x => x.Usr_ID > 1).ToHashSet();
@@ -40,12 +38,8 @@ namespace Application.Core.Services.Concrete
         }
         public UserModel GetUserByMail(string email)
         {
-            using (var scope = this._provider.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<DBaseContext>();
-                var user = context.Users.Where(x => x.Usr_Email == email).FirstOrDefault();
-                return user;
-            }
+            var user = _dbContext.Users.Where(x => x.Usr_Email == email).FirstOrDefault();
+            return user;
         }
     }
 }
