@@ -37,9 +37,26 @@ namespace Application.Core.Services.Concrete
         public UserModel? GetUserByMail(string email)
         {
             var user = _dbContext.Users.Where(x => x.Usr_Email == email).FirstOrDefault();
+<<<<<<< HEAD
             if (user != null)
                 return user;
             return null;
+        }
+
+        public string? ChangePassword(string email, string password, string newPassword)
+        {
+            var user = _dbContext.Users.Where(x => x.Usr_Email == email && x.Usr_Password == password).FirstOrDefault();
+            if (user != null)
+            {
+                user.Usr_Password = newPassword;
+                _dbContext.SaveChanges();
+                return user.Usr_Password;
+            }
+            return null;
+=======
+            if(user != null)
+            return user;
+>>>>>>> 9adcf3e5799121474dcf633c31eb2644e5929883
         }
 
         public string? ChangePassword(string email, string password, string newPassword)
