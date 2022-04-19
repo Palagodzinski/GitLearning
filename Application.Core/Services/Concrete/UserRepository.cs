@@ -25,7 +25,7 @@ namespace Application.Core.Services.Concrete
 
 
             var newUser = _dbContext.Users.Where(x => x.Usr_ID == user.Usr_ID).FirstOrDefault();
-      
+
             return newUser;
         }
 
