@@ -12,5 +12,6 @@ namespace Application.Core.Services.Abstract
         UserModel Register(string name, string lastName, string password, string email);
         UserModel AddNewUserToDB(UserModel user);
         bool Login(string email, string password);
+        UserModel GetFirstUser();
     }
 }
