@@ -25,9 +25,7 @@ namespace Application.Core.Services.Concrete
 
 
             var newUser = _dbContext.Users.Where(x => x.Usr_ID == user.Usr_ID).FirstOrDefault();
-            var query = _dbContext.Users.Where(x => x.Usr_ID > 1).ToHashSet();
-            var list = _dbContext.Users.ToHashSet();
-            var sss = _dbContext.Users.Where(x => x.Usr_ID != 0).Include(x => x.Usr_LastName).ToHashSet();
+      
             return newUser;
         }
 
@@ -39,8 +37,9 @@ namespace Application.Core.Services.Concrete
         public UserModel? GetUserByMail(string email)
         {
             var user = _dbContext.Users.Where(x => x.Usr_Email == email).FirstOrDefault();
-            if(user != null)
-            return user;
+            if (user != null)
+                return user;
+            return null;
         }
 
         public string? ChangePassword(string email, string password, string newPassword)

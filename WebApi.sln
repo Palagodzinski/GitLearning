@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Core", "Applica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.xUnit.Tests", "Application.Tests\Application.xUnit.Tests.csproj", "{58A851D3-342D-4F42-A7E4-F3CA96254F7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.nUnit.Tests", "Application.Nunit.Tests\Application.nUnit.Tests.csproj", "{81828315-9F6A-4CFB-B7F7-482210DFC4C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.nUnit.Tests", "Application.Nunit.Tests\Application.nUnit.Tests.csproj", "{81828315-9F6A-4CFB-B7F7-482210DFC4C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
