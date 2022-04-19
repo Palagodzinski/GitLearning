@@ -39,7 +39,20 @@ namespace Application.Core.Services.Concrete
         public UserModel GetUserByMail(string email)
         {
             var user = _dbContext.Users.Where(x => x.Usr_Email == email).FirstOrDefault();
+            if(user != null)
             return user;
+        }
+
+        public string? ChangePassword(string email, string password, string newPassword)
+        {
+            var user = _dbContext.Users.Where(x => x.Usr_Email == email && x.Usr_Password == password).FirstOrDefault();
+            if (user != null)
+            {
+                user.Usr_Password = newPassword;
+                _dbContext.SaveChanges();
+                return user.Usr_Password;
+            }
+            return null;
         }
     }
 }

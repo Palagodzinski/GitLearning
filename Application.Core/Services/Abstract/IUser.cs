@@ -13,5 +13,6 @@ namespace Application.Core.Services.Abstract
         UserModel AddNewUserToDB(UserModel user);
         bool Login(string email, string password);
         UserModel GetFirstUser();
+        string? ChangePassword(string email, string password, string newPassword);
     }
 }
