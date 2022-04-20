@@ -3,6 +3,7 @@ using Application.Core.Services.Abstract;
 using Application.Core.Services.Concrete;
 using BenchmarkDotNet.Running;
 using FluentValidation.AspNetCore;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -26,7 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
- 
+app.UseHangfireDashboard("/mydashboard");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
