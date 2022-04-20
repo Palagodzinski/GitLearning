@@ -35,6 +35,8 @@ namespace Application.xUnit.Tests
         {
             //Arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             var test = Substitute.For<IServiceProvider>();
             var data = fixture.Create<UserModel>();
             var sut = fixture.Create<User>();
@@ -51,6 +53,8 @@ namespace Application.xUnit.Tests
         {
             //Arrange
             var fixture = new Fixture();
+            fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             var calMock = new Mock<IUserRepository>();
             var sut = new User(calMock.Object);
             var user = fixture.Create<UserModel>();
@@ -69,7 +73,7 @@ namespace Application.xUnit.Tests
             var fixture = new Fixture();
 
             var validator = new UserRegisterValidator();
-            var sut = new SimpleController(imageMock.Object, creatorMock.Object, userMock.Object);
+            var sut = new UserController(userMock.Object);
             var user = fixture.Create<UserModelDTO>();
 
             //Act
@@ -86,7 +90,7 @@ namespace Application.xUnit.Tests
             var fixture = new Fixture();
 
             var validator = new UserRegisterValidator();
-            var sut = new SimpleController(imageMock.Object, creatorMock.Object, userMock.Object);
+            var sut = new UserController(userMock.Object);
             var user = new UserModelDTO
             {
                 email = "pawel@o2.pl",

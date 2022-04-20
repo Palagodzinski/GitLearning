@@ -14,5 +14,6 @@ namespace Application.Core.Services.Abstract
         bool Login(string email, string password);
         UserModel GetFirstUser();
         string? ChangePassword(string email, string password, string newPassword);
+        int? AddBookToUserAccount(Books book);
     }
 }

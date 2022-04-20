@@ -12,12 +12,10 @@ namespace Application.Core.Models
     public class Books
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Bks_ID { get; set; }
-        [ForeignKey("Users")]
-        public int Bks_UserID { get; set; }
         public string Bks_Title { get; set; }
         public string Bks_Author { get; set; }
         public virtual UserModel Users { get; set; }
-
     }
 }

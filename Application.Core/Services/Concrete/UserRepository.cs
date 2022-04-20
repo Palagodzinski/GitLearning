@@ -22,8 +22,6 @@ namespace Application.Core.Services.Concrete
         {
             _dbContext.Add(user);
             _dbContext.SaveChanges();
-
-
             var newUser = _dbContext.Users.Where(x => x.Usr_ID == user.Usr_ID).FirstOrDefault();
 
             return newUser;
@@ -50,6 +48,17 @@ namespace Application.Core.Services.Concrete
                 user.Usr_Password = newPassword;
                 _dbContext.SaveChanges();
                 return user.Usr_Password;
+            }
+            return null;
+        }
+
+        public int? AddBookToUserAccount(Books book)
+        {
+            if (book != null)
+            {
+                _dbContext.Books.Add(book);
+                _dbContext.SaveChanges();
+                return book.Bks_ID;
             }
             return null;
         }
