@@ -19,8 +19,7 @@ namespace Application.Core.Models
         public string Usr_LastName { get; set; }
         public string Usr_Password { get; set; }
         public string Usr_Email { get; set; }
-       
-
-       // public ISet<Books> Books { get; set; }
+        public DateTime Usr_Created { get; set; }
+        public ISet<Books> Books { get; set; }
     }
 }

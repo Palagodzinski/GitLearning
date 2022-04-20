@@ -28,19 +28,22 @@ namespace Application.Core.Services.Concrete
         public bool Login(string email, string password)
         {
             var user = _userRepository.GetUserByMail(email);
-            if (user!=null && user.Usr_Password == password)
+            if (user != null && user.Usr_Password == password)
                 return true;
             return false;
         }
 
         public UserModel GetFirstUser()
             => _userRepository.GetFirstUser();
-        
+
         public UserModel AddNewUserToDB(UserModel user)
             => _userRepository.AddNewUsertToDB(user);
 
         public string? ChangePassword(string email, string password, string newPassword)
             => _userRepository.ChangePassword(email, password, newPassword);
+
+        public int? AddBookToUserAccount(Books book)
+            => _userRepository.AddBookToUserAccount(book);
     }
 }
 

@@ -37,6 +37,8 @@ namespace Application.nUnit.Tests
         {
             //Arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             var user = fixture.Create<UserModel>();
             var sut = fixture.Create<User>();
 
@@ -53,7 +55,7 @@ namespace Application.nUnit.Tests
             //Arrange
             var fixture = new Fixture();
             var validator = new UserRegisterValidator();
-            var sut = new SimpleController(_imageMock.Object, _creatorMock.Object, _userMock.Object);
+            var sut = new UserController(_userMock.Object);
             var user = fixture.Create<UserModelDTO>();
 
             //Act
@@ -68,6 +70,8 @@ namespace Application.nUnit.Tests
         {
             //Arrange
             var fixture = new Fixture();
+            fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             var sub = Substitute.For<IUserRepository>();
             var sut = new User(sub);
             var user = fixture.Create<UserModel>();
