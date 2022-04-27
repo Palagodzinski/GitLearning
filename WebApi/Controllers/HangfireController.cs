@@ -1,6 +1,7 @@
 ﻿using Application.Core.Models;
 using Application.Core.Services.Abstract;
 using Hangfire;
+using Hangfire.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Api.Controllers
@@ -8,8 +9,10 @@ namespace Application.Api.Controllers
     public class HangfireController : Controller
     {
         private readonly IUser _user;
-        public HangfireController(IUser user)
+        private readonly IJobManager _jobManager;
+        public HangfireController(IUser user, IJobManager jobManager)
         {
+            _jobManager = jobManager;
             _user = user;
         }
 
@@ -35,15 +38,11 @@ namespace Application.Api.Controllers
             return Ok($"JobId : {jobID} Completed.");
         }
 
-        [HttpPut("RegisterNewUserCron")]
-        public IActionResult RegisterCron([FromBody] UserModelDTO user)
+        [HttpDelete("DeleteReccuringJobs")]
+        public IActionResult DeleteReccuringJobs()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var createdUser = _user.Register(user.Name, user.LastName, user.password, user.email);
-            RecurringJob.AddOrUpdate(() => _user.AddNewUserToDB(createdUser), Cron.Minutely);
-            return Ok($"ReccuringJob Scheduled (Minutely)");
+            var result = _jobManager.DeleteRecurringJobs();
+            return Ok(result);
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Application.Core.Models
         public string Usr_Password { get; set; }
         public string Usr_Email { get; set; }
         public DateTime Usr_Created { get; set; }
-        public ISet<Books> Books { get; set; }
+        [ForeignKey("UserID")]
+        public ISet<Books>? Books { get; set; }
+        public ISet<DelayedBooks>? DelayedBooks { get; set; }
     }
 }

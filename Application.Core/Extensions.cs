@@ -2,6 +2,7 @@
 using Application.Core.Services.Concrete;
 using FluentValidation.AspNetCore;
 using Hangfire;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -21,15 +22,20 @@ namespace Application.Core
             serviceCollection.AddScoped<IStringCreator, StringCreator>();
             serviceCollection.AddTransient<ICalculatorEngine, CalculatorEngine>();
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
+            serviceCollection.AddTransient<IJobManager, JobManager>();
             serviceCollection.AddDbContext<DBaseContext>(opt =>
             {
                 opt.UseSqlServer($"Server = localhost\\SQLEXPRESS; Database = model;User ID=admin;Password=Cdnoptima*1; Integrated Security=false;Trusted_Connection=False;", b => b.MigrationsAssembly("Application.Api"));
             });
+            serviceCollection.AddScoped<DBaseContext>();
             serviceCollection.AddHangfire(x => x.UseSqlServerStorage(
                 "Server = localhost\\SQLEXPRESS; Database = model;User ID=admin;Password=Cdnoptima*1;" +
                 "Integrated Security=false;Trusted_Connection=False;"));
             serviceCollection.AddHangfireServer();
+
             return serviceCollection;
         }
+
+    
     }
 }

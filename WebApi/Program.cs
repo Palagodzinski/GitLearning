@@ -7,6 +7,7 @@ using Hangfire;
 using Microsoft.EntityFrameworkCore;
 
 
+IJobManager _jobManager;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,4 +36,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+ _jobManager = builder.Services.BuildServiceProvider().CreateScope()
+    .ServiceProvider.GetRequiredService<IJobManager>();
+_jobManager.VerifyDelays();
+
 app.Run();
+

@@ -4,6 +4,7 @@ using Application.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Api.Migrations
 {
     [DbContext(typeof(DBaseContext))]
-    partial class DBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220426074611_deletedUselessUserIdFromBooks")]
+    partial class deletedUselessUserIdFromBooks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace Application.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("Bks_ID");
@@ -114,8 +116,7 @@ namespace Application.Api.Migrations
                     b.HasOne("Application.Core.Models.UserModel", "User")
                         .WithMany("Books")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("User");
                 });
