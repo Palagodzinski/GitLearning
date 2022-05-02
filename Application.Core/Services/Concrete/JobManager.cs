@@ -34,33 +34,84 @@ namespace Application.Core.Services.Concrete
 
         public void VerifyDelays()
         {
-            CreateDelays();
-            //  RecurringJob.AddOrUpdate(() => CreateDelays(), Cron.Daily);
+           // CreateDelaysWithNplusOneProblem();
+            CreateDelaysFixed();
         }
 
 
         public void CreateDelays()
         {
-            IList<Books> booksWithDelays = _dbcontext.Books.Include(x => x.User).Where(x => x.Bks_ReturnDate < DateTime.Now && x.User.Usr_ID == 2).ToList();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            IList<Books> booksWithDelays = _dbcontext.Books
+                .Include(x => x.User)
+                .Where(x => x.Bks_ReturnDate < DateTime.Now && !x.User.DelayedBooks
+                .Select(z => z.Book).Contains(x))
+                .ToList();
 
             if (booksWithDelays.Count == 0)
                 return;
 
             foreach (var book in booksWithDelays)
             {
-                var existingDelay = _dbcontext.DelayedBooks.Where(x => x.User == book.User && x.Book == book).FirstOrDefault();
-                if (existingDelay != null)
-                    continue;
-
                 DelayedBooks delayedBook = new DelayedBooks()
                 {
                     Book = book,
                     User = book.User,
                 };
                 _dbcontext.DelayedBooks.Add(delayedBook);
-                _dbcontext.SaveChanges();
-
             }
+            _dbcontext.SaveChanges();
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+        }
+
+        public void CreateDelaysWithNplusOneProblem()
+        {
+            IList<UserModel> users = _dbcontext.Users
+                .Where(x => x.Books != null)
+                .ToList();
+
+            if (users.Count == 0)
+                return;
+
+            foreach (var user in users)
+            {
+                foreach (var book in user.Books)
+                {
+                    DelayedBooks delayedBook = new DelayedBooks()
+                    {
+                        Book = book,
+                        User = user,
+                    };
+                    _dbcontext.DelayedBooks.Add(delayedBook);
+                }
+            }
+            _dbcontext.SaveChanges();
+        }
+
+        public void CreateDelaysFixed()
+        {
+            IList<UserModel> users = _dbcontext.Users
+                .Include(x => x.Books)
+                .Where(x => x.Books != null)
+                .ToList();
+
+            if (users.Count == 0)
+                return;
+
+            foreach (var user in users)
+            {
+                foreach (var book in user.Books)
+                {
+                    DelayedBooks delayedBook = new DelayedBooks()
+                    {
+                        Book = book,
+                        User = user,
+                    };
+                    _dbcontext.DelayedBooks.Add(delayedBook);
+                }
+            }
+            _dbcontext.SaveChanges();
         }
     }
 }

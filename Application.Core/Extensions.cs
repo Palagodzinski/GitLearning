@@ -25,17 +25,25 @@ namespace Application.Core
             serviceCollection.AddTransient<IJobManager, JobManager>();
             serviceCollection.AddDbContext<DBaseContext>(opt =>
             {
-                opt.UseSqlServer($"Server = localhost\\SQLEXPRESS; Database = model;User ID=admin;Password=Cdnoptima*1; Integrated Security=false;Trusted_Connection=False;", b => b.MigrationsAssembly("Application.Api"));
+                opt.UseSqlServer
+                ($"Server = localhost\\SQLEXPRESS; Database = model;User ID=admin;Password=Cdnoptima*1;" +
+                $" Integrated Security=false;Trusted_Connection=False;",
+                b => b.MigrationsAssembly("Application.Api"))
+                .UseLazyLoadingProxies();
             });
             serviceCollection.AddScoped<DBaseContext>();
-            serviceCollection.AddHangfire(x => x.UseSqlServerStorage(
+            serviceCollection.AddHangfire(x => x.
+                UseSqlServerStorage(
                 "Server = localhost\\SQLEXPRESS; Database = model;User ID=admin;Password=Cdnoptima*1;" +
-                "Integrated Security=false;Trusted_Connection=False;"));
+                "Integrated Security=false;Trusted_Connection=False;")
+                .UseColouredConsoleLogProvider()
+                );
+
             serviceCollection.AddHangfireServer();
 
             return serviceCollection;
         }
 
-    
+
     }
 }

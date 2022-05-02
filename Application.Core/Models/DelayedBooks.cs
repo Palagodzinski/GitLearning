@@ -8,8 +8,8 @@ namespace Application.Core.Models
         [Key]
         public int Db_Id { get; set; }
 
-        public UserModel User { get; set; }
+        public virtual UserModel User { get; set; }
 
-        public Books Book { get; set; }
+        public virtual Books Book { get; set; }
     }
 }

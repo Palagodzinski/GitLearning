@@ -21,7 +21,7 @@ namespace Application.Core.Models
         public string Usr_Email { get; set; }
         public DateTime Usr_Created { get; set; }
         [ForeignKey("UserID")]
-        public ISet<Books>? Books { get; set; }
-        public ISet<DelayedBooks>? DelayedBooks { get; set; }
+        public virtual ISet<Books>? Books { get; set; }
+        public virtual ISet<DelayedBooks>? DelayedBooks { get; set; }
     }
 }
