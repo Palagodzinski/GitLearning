@@ -17,16 +17,7 @@ namespace Application.Core
     {
         public static IServiceCollection AddRegisteredCoreServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddDbContext<DBaseContext>(opt =>
-            {
-                opt.UseSqlServer
-                ($"Server = localhost\\SQLEXPRESS; Database = model;User ID=admin;Password=Cdnoptima*1;" +
-                $" Integrated Security=false;Trusted_Connection=False;",
-                b => b.MigrationsAssembly("Application.Api"))
-                .UseLazyLoadingProxies();
-            });
-            serviceCollection.AddScoped<DBaseContext>();
-            serviceCollection.AddHangfire(x => 
+            serviceCollection.AddHangfire(x =>
             x.UseSqlServerStorage(
                 "Server = localhost\\SQLEXPRESS; Database = model;User ID=admin;Password=Cdnoptima*1;" +
                 "Integrated Security=false;Trusted_Connection=False;")
@@ -34,6 +25,7 @@ namespace Application.Core
                 );
 
             serviceCollection.AddHangfireServer();
+            serviceCollection.AddHttpContextAccessor();
 
             return serviceCollection;
         }

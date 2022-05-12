@@ -22,8 +22,7 @@ namespace Application.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var createdUser = _user.Register(user.Name, user.LastName, user.password, user.email);
-            var jobID = BackgroundJob.Enqueue(() => _user.AddNewUserToDB(createdUser));
+            var jobID = _jobManager.RegisterNewUser(user);
             return Ok($"JobId :{jobID}  Completed.");
         }
 
@@ -33,8 +32,7 @@ namespace Application.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var createdUser = _user.Register(user.Name, user.LastName, user.password, user.email);
-            var jobID = BackgroundJob.Schedule(() => _user.AddNewUserToDB(createdUser), TimeSpan.FromMinutes(2));
+            var jobID = _jobManager.RegisterNewUserWithDelay(user);
             return Ok($"JobId : {jobID} Completed.");
         }
 

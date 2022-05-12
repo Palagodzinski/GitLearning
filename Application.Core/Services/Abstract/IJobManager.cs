@@ -11,6 +11,8 @@ namespace Application.Core.Services.Abstract
     {
         int DeleteRecurringJobs();
         void VerifyDelays();
+        string RegisterNewUser(UserModelDTO user);
+        string RegisterNewUserWithDelay(UserModelDTO user);
 
     }
 }

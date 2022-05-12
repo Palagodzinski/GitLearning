@@ -3,20 +3,37 @@ using Application.Core.Services.Abstract;
 using Hangfire;
 using Hangfire.Storage;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Core.Services.Concrete
 {
     public class JobManager : IJobManager
     {
         private readonly DBaseContext _dbcontext;
-        public JobManager(DBaseContext dbcontext)
+        private readonly IUser _user;
+        public JobManager(DBaseContext dbcontext, IUser user)
         {
             _dbcontext = dbcontext;
+            _user = user;
+        }
+
+        public string RegisterNewUser(UserModelDTO userModel)
+        {
+            var createdUser = CreateUser(userModel);
+            var jobID = BackgroundJob.Enqueue(() => _user.AddNewUserToDB(createdUser));
+            return jobID;
+        }
+
+        public string RegisterNewUserWithDelay(UserModelDTO userModel)
+        {
+            var createdUser = CreateUser(userModel);
+            var jobID = BackgroundJob.Schedule(() => _user.AddNewUserToDB(createdUser), TimeSpan.FromMinutes(2));
+            return jobID;
+        }
+
+        private UserModel CreateUser(UserModelDTO userModel)
+        {
+            var createdUser = _user.Register(userModel.Name, userModel.LastName, userModel.password, userModel.email);
+            return createdUser;
         }
 
         public int DeleteRecurringJobs()
@@ -34,10 +51,8 @@ namespace Application.Core.Services.Concrete
 
         public void VerifyDelays()
         {
-           // CreateDelaysWithNplusOneProblem();
             CreateDelaysFixed();
         }
-
 
         public void CreateDelays()
         {
