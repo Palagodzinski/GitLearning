@@ -25,9 +25,9 @@ namespace Application.Api.Configuration
             {
                 var optionsBuilder = new DbContextOptionsBuilder<DBaseContext>();
                 optionsBuilder.UseSqlServer($"Server = localhost\\SQLEXPRESS; Database = model;" +
-                    $"User ID=admin;Password=Cdnoptima*1;" +
-                    $" Integrated Security=false;Trusted_Connection=False;", x => x
-                     .MigrationsAssembly("Application.Api"))
+                    $"User ID=admin;Password=Cdnoptima*1; " +
+                    $"Integrated Security=false;Trusted_Connection=False;", x => x
+                    .MigrationsAssembly("Application.Api"))
                     .UseLazyLoadingProxies();
                 return new DBaseContext(optionsBuilder.Options);
             }).AsSelf().SingleInstance();
