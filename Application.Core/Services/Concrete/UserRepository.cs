@@ -32,6 +32,7 @@ namespace Application.Core.Services.Concrete
             var user = _dbContext.Users.FirstOrDefault();
             return user;
         }
+
         public UserModel? GetUserByMail(string email)
         {
             var user = _dbContext.Users.Where(x => x.Usr_Email == email).FirstOrDefault();

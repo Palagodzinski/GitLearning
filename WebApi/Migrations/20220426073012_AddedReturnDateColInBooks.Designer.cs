@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Api.Migrations
 {
     [DbContext(typeof(DBaseContext))]
-    [Migration("20220420055804_AddedNewFieldsInUserTable")]
-    partial class AddedNewFieldsInUserTable
+    [Migration("20220426073012_AddedReturnDateColInBooks")]
+    partial class AddedReturnDateColInBooks
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,18 +36,50 @@ namespace Application.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Bks_ReturnDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Bks_Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UsersUsr_ID")
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Usr_UsrID")
                         .HasColumnType("int");
 
                     b.HasKey("Bks_ID");
 
-                    b.HasIndex("UsersUsr_ID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("Application.Core.Models.DelayedBooks", b =>
+                {
+                    b.Property<int>("Db_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Db_Id"), 1L, 1);
+
+                    b.Property<int>("BookBks_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Db_DelayDaysCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserUsr_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Db_Id");
+
+                    b.HasIndex("BookBks_ID");
+
+                    b.HasIndex("UserUsr_ID");
+
+                    b.ToTable("DelayedBooks");
                 });
 
             modelBuilder.Entity("Application.Core.Models.UserModel", b =>
@@ -84,18 +116,38 @@ namespace Application.Api.Migrations
 
             modelBuilder.Entity("Application.Core.Models.Books", b =>
                 {
-                    b.HasOne("Application.Core.Models.UserModel", "Users")
+                    b.HasOne("Application.Core.Models.UserModel", "User")
                         .WithMany("Books")
-                        .HasForeignKey("UsersUsr_ID")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Application.Core.Models.DelayedBooks", b =>
+                {
+                    b.HasOne("Application.Core.Models.Books", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookBks_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Users");
+                    b.HasOne("Application.Core.Models.UserModel", "User")
+                        .WithMany("DelayedBooks")
+                        .HasForeignKey("UserUsr_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Application.Core.Models.UserModel", b =>
                 {
                     b.Navigation("Books");
+
+                    b.Navigation("DelayedBooks");
                 });
 #pragma warning restore 612, 618
         }

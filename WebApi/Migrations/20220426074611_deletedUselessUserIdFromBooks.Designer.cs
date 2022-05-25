@@ -4,6 +4,7 @@ using Application.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Api.Migrations
 {
     [DbContext(typeof(DBaseContext))]
-    partial class DBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220426074611_deletedUselessUserIdFromBooks")]
+    partial class deletedUselessUserIdFromBooks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace Application.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Bks_ReturnDate")
+                    b.Property<DateTime>("Bks_ReturnDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Bks_Title")
@@ -60,6 +62,9 @@ namespace Application.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Db_Id"), 1L, 1);
 
                     b.Property<int>("BookBks_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Db_DelayDaysCount")
                         .HasColumnType("int");
 
                     b.Property<int>("UserUsr_ID")

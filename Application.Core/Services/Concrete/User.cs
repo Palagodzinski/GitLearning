@@ -20,7 +20,8 @@ namespace Application.Core.Services.Concrete
                 Usr_Name = name,
                 Usr_LastName = lastName,
                 Usr_Password = password,
-                Usr_Email = email
+                Usr_Email = email,
+                Usr_Created = DateTime.Now.Date
             };
             return user;
         }
